@@ -23,7 +23,7 @@
     <a class="button-link" href="https://docs.google.com/forms/d/e/1FAIpQLSej1_h9DybIISi16AyVmEi0tNAOtIabm25zgPjD8om82fY8xw/viewform" target="_blank">Request Access</a>
 
     <h2>Access Eaglercraft</h2>
-    <a class="button-link" href="https://musical-giggle-g4wg55rvppqxh97r5-8081.app.github.dev/" target="_blank">Open Eaglercraft</a>
+    <a class="button-link" href="https://eagler-1-tbq5.onrender.com" target="_blank">Open Eaglercraft</a>
 
     <div class="status" id="codespace-status">Checking status...</div>
 
@@ -31,38 +31,8 @@
       <div>Visits today: <span id="visit-count">0</span></div>
       <div>Last checked: <span id="last-checked">--:--:--</span></div>
       <div>Codespace name: musical-giggle-g4wg55rvppqxh97r5</div>
-      <div>App URL: <a href="https://musical-giggle-g4wg55rvppqxh97r5-8081.app.github.dev/" target="_blank">Open Eaglercraft</a></div>
+      <div>App URL: <a href="https://eagler-1-tbq5.onrender.com" target="_blank">Open Eaglercraft</a></div>
     </div>
   </div>
-
-  <script>
-    const statusDiv = document.getElementById('codespace-status');
-    const visitCountSpan = document.getElementById('visit-count');
-    const lastCheckedSpan = document.getElementById('last-checked');
-    const codespaceURL = 'https://musical-giggle-g4wg55rvppqxh97r5-8081.app.github.dev/';
-
-    // Track visits today
-    let visitCount = parseInt(localStorage.getItem('visitCount')) || 0;
-    visitCount++;
-    localStorage.setItem('visitCount', visitCount);
-    visitCountSpan.textContent = visitCount;
-
-    async function checkCodespace() {
-      try {
-        await fetch(codespaceURL, { method: 'HEAD', mode: 'no-cors' });
-        statusDiv.textContent = 'Codespace is ACTIVE';
-        statusDiv.classList.remove('inactive');
-        statusDiv.classList.add('active');
-      } catch (err) {
-        statusDiv.textContent = 'Codespace is INACTIVE';
-        statusDiv.classList.remove('active');
-        statusDiv.classList.add('inactive');
-      }
-      lastCheckedSpan.textContent = new Date().toLocaleTimeString();
-    }
-
-    checkCodespace();
-    setInterval(checkCodespace, 30000);
-  </script>
 </body>
 </html>
