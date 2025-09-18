@@ -3,61 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Join & Access Eaglercraft</title>
+  <title>Eaglercraft Codespace Status</title>
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f9f9f9;
-      color: #333;
-      margin: 0;
-      padding: 0;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: 50px auto;
-      padding: 30px;
-      background-color: #fff;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      border-radius: 12px;
-      text-align: center;
-    }
-
-    h1, h2 {
-      color: #222;
-    }
-
-    .button-link {
-      display: inline-block;
-      margin: 20px 0;
-      text-decoration: none;
-      background-color: #007bff;
-      color: #fff;
-      padding: 14px 28px;
-      border-radius: 8px;
-      font-weight: bold;
-      transition: background-color 0.2s ease;
-    }
-
-    .button-link:hover {
-      background-color: #0056b3;
-    }
-
-    p {
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
+    body { font-family: Arial, sans-serif; background: #f9f9f9; color: #333; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: 50px auto; padding: 30px; background: #fff; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center; }
+    h1, h2 { color: #222; }
+    .button-link { display: inline-block; margin: 20px 0; text-decoration: none; background-color: #007bff; color: #fff; padding: 14px 28px; border-radius: 8px; font-weight: bold; transition: background-color 0.2s; }
+    .button-link:hover { background-color: #0056b3; }
+    .status { font-size: 18px; margin: 15px 0; font-weight: bold; }
+    .active { color: green; }
+    .inactive { color: red; }
+    .stats { font-size: 16px; margin-top: 20px; text-align: left; }
+    .stats div { margin: 5px 0; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Request to Join the Server</h1>
-    <p>Click the button below to open the Google form:</p>
-    <a class="button-link" href="https://docs.google.com/forms/d/e/1FAIpQLSej1_h9DybIISi16AyVmEi0tNAOtIabm25zgPjD8om82fY8xw/viewform" target="_blank">Open Request Form</a>
+    <h1>Join & Access Eaglercraft</h1>
+    <a class="button-link" href="https://docs.google.com/forms/d/e/1FAIpQLSej1_h9DybIISi16AyVmEi0tNAOtIabm25zgPjD8om82fY8xw/viewform" target="_blank">Request Access</a>
 
     <h2>Access Eaglercraft</h2>
-    <p>Click the button below to open Eaglercraft:</p>
     <a class="button-link" href="https://musical-giggle-g4wg55rvppqxh97r5-8081.app.github.dev/" target="_blank">Open Eaglercraft</a>
+
+    <div class="status" id="codespace-status">Checking status...</div>
+
+    <div class="stats">
+      <div>Visits today: <span id="visit-count">0</span></div>
+      <div>Last checked: <span id="last-checked">--:--:--</span></div>
+      <div>Codespace name: musical-giggle-g4wg55rvppqxh97r5</div>
+      <div>App URL: <a href="https://musical-giggle-g4wg55rvppqxh97r5-8081.app.github.dev/" target="_blank">Open Eaglercraft</a></div>
+    </div>
   </div>
+
+  <script>
+    const statusDiv = document.getElementById('codespace-status');
+    const visitCountSpan = document.getElementById('visit-count');
+    const lastCheckedSpan = document.getElementById('last-checked');
+    const codespaceURL = 'https://musical-giggle-g4wg55rvppqxh97r5-8081.app.github.dev/';
+
+    // Track visits today
+    let visitCount = parseInt(localStorage.getItem('visitCount')) || 0;
+    visitCount++;
+    localStorage.setItem('visitCount', visitCount);
+    visitCountSpan.textContent = visitCount;
+
+    async function checkCodespace() {
+      try {
+        await fetch(codespaceURL, { method: 'HEAD', mode: 'no-cors' });
+        statusDiv.textContent = 'Codespace is ACTIVE';
+        statusDiv.classList.remove('inactive');
+        statusDiv.classList.add('active');
+      } catch (err) {
+        statusDiv.textContent = 'Codespace is INACTIVE';
+        statusDiv.classList.remove('active');
+        statusDiv.classList.add('inactive');
+      }
+      lastCheckedSpan.textContent = new Date().toLocaleTimeString();
+    }
+
+    checkCodespace();
+    setInterval(checkCodespace, 30000);
+  </script>
 </body>
 </html>
