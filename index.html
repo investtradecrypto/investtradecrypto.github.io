@@ -80,7 +80,7 @@
       background: rgba(255,255,255,0.15);
     }
 
-    .reload-btn {
+    .reload-btn, .play-btn {
       display: inline-block;
       margin-top: 20px;
       padding: 10px 20px;
@@ -91,9 +91,10 @@
       cursor: pointer;
       font-weight: bold;
       transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
     }
 
-    .reload-btn:hover {
+    .reload-btn:hover, .play-btn:hover {
       transform: scale(1.05);
       box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
@@ -111,6 +112,8 @@
     <h1>Eaglercraft 1.12.2 Status</h1>
     <div class="status">✅ Server Online</div>
     <a class="status-link" href="https://stats.uptimerobot.com/XQPzZfF78k" target="_blank">View Detailed Status Page</a>
+
+    <a class="play-btn" href="https://eaglerserver-o9g6.onrender.com" target="_blank">Play Eaglercraft</a>
 
     <div class="tip" id="tip">As seen on TV!</div>
     <button class="reload-btn" onclick="randomTip()">Reload Splash Text</button>
@@ -145,7 +148,7 @@
       "Reticulating splines!",
       "Minecraft!",
       "Yaaay!"
-      "If you see this, You are Phein Certified 😎😎😎"
+      "If you see this, You are Phein Certified! 😎😎😎"
     ];
 
     function randomTip() {
