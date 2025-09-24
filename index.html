@@ -3,34 +3,158 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Eaglercraft Codespace Status</title>
+  <title>Eaglercraft 1.12.2 Status Page</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f9f9f9; color: #333; margin: 0; padding: 0; }
-    .container { max-width: 600px; margin: 50px auto; padding: 30px; background: #fff; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center; }
-    h1, h2 { color: #222; }
-    .button-link { display: inline-block; margin: 20px 0; text-decoration: none; background-color: #007bff; color: #fff; padding: 14px 28px; border-radius: 8px; font-weight: bold; transition: background-color 0.2s; }
-    .button-link:hover { background-color: #0056b3; }
-    .status { font-size: 18px; margin: 15px 0; font-weight: bold; }
-    .active { color: green; }
-    .inactive { color: red; }
-    .stats { font-size: 16px; margin-top: 20px; text-align: left; }
-    .stats div { margin: 5px 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1f4037, #99f2c8);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      background-size: 200% 200%;
+      animation: backgroundShift 15s ease infinite;
+    }
+
+    @keyframes backgroundShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      max-width: 700px;
+      padding: 40px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      text-align: center;
+      animation: fadeIn 1.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-size: 2.6em;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 5px #000;
+    }
+
+    .status {
+      font-size: 1.5em;
+      margin: 25px 0;
+      font-weight: bold;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+
+    .tip {
+      margin-top: 30px;
+      font-size: 1.3em;
+      color: #ffd700;
+      background: rgba(255,255,255,0.05);
+      padding: 20px 30px;
+      border-radius: 12px;
+      font-style: italic;
+      transition: background 0.3s;
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .tip:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    .reload-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: linear-gradient(90deg, #2196F3, #1976D2);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .reload-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    a.status-link {
+      display: block;
+      margin-top: 10px;
+      color: #00bfff;
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Join & Access Eaglercraft</h1>
-    <a class="button-link" href="https://docs.google.com/forms/d/e/1FAIpQLSej1_h9DybIISi16AyVmEi0tNAOtIabm25zgPjD8om82fY8xw/viewform" target="_blank">Request Access</a>
+    <h1>Eaglercraft 1.12.2 Status</h1>
+    <div class="status">✅ Server Online</div>
+    <a class="status-link" href="https://stats.uptimerobot.com/XQPzZfF78k" target="_blank">View Detailed Status Page</a>
 
-    <h2>Access Eaglercraft</h2>
-    <a class="button-link" href="https://eaglerserver-o9g6.onrender.com" target="_blank">Open Eaglercraft</a>
-
-    <div class="status" id="codespace-status">Checking status...</div>
-
-    <div class="stats">
-      <div>Visits today: <span id="visit-count">0</span></div>
-      <div>App URL: <a href="https://eaglerserver-o9g6.onrender.com" target="_blank">Open Eaglercraft</a></div>
-    </div>
+    <div class="tip" id="tip">As seen on TV!</div>
+    <button class="reload-btn" onclick="randomTip()">Reload Splash Text</button>
   </div>
+
+  <script>
+    const tips = [
+      "As seen on TV!",
+      "Awesome!",
+      "100% pure!",
+      "May contain nuts!",
+      "More polygons!",
+      "Super cool!",
+      "Limited edition!",
+      "Flashing letters!",
+      "Made by Notch!",
+      "It's here!",
+      "Best in class!",
+      "It's finished!",
+      "Kind of dragon free!",
+      "Excitement!",
+      "More than 500 sold!",
+      "One of a kind!",
+      "Heaps of hits on YouTube!",
+      "Indev!",
+      "Spiders everywhere!",
+      "Check it out!",
+      "Holy cow, man!",
+      "It's a game!",
+      "Made in Sweden!",
+      "Uses LWJGL!",
+      "Reticulating splines!",
+      "Minecraft!",
+      "Yaaay!"
+      "If you see this, You are Phein Certified 😎😎😎"
+    ];
+
+    function randomTip() {
+      const tipEl = document.getElementById('tip');
+      tipEl.textContent = tips[Math.floor(Math.random() * tips.length)];
+    }
+
+    randomTip();
+    setInterval(randomTip, 10000);
+  </script>
 </body>
 </html>
