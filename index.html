@@ -80,9 +80,9 @@
       background: rgba(255,255,255,0.15);
     }
 
-    .reload-btn, .play-btn, .start-btn, .proxy-btn {
+    .reload-btn, .play-btn, .start-btn, .proxy-btn, .game-btn, .wasm-btn {
       display: inline-block;
-      margin-top: 20px;
+      margin: 10px;
       padding: 10px 20px;
       background: linear-gradient(90deg, #2196F3, #1976D2);
       color: #fff;
@@ -94,7 +94,7 @@
       text-decoration: none;
     }
 
-    .reload-btn:hover, .play-btn:hover, .start-btn:hover, .proxy-btn:hover {
+    .reload-btn:hover, .play-btn:hover, .start-btn:hover, .proxy-btn:hover, .game-btn:hover, .wasm-btn:hover {
       transform: scale(1.05);
       box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
@@ -111,7 +111,14 @@
   <div class="container">
     <h1>Eaglercraft 1.12.2</h1>
     <div class="status">✅ Server Online</div>
+
+    <!-- Existing Play button -->
     <a class="play-btn" href="http://pheinseaglerserver.surge.sh/" target="_blank">Play Eaglercraft</a>
+
+    <!-- New buttons -->
+    <a class="game-btn" href="http://pheinseaglerserver.surge.sh/game.html" target="_blank">Game</a>
+    <a class="wasm-btn" href="http://pheinseaglerserver.surge.sh/wasm.html" target="_blank">WASM</a>
+
     <div class="tip" id="tip">As seen on TV!</div>
     <button class="reload-btn" onclick="randomTip()">Reload Splash Text</button>
   </div>
@@ -158,4 +165,3 @@
   </script>
 </body>
 </html>
-
