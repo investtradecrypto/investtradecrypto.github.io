@@ -15,7 +15,7 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      overflow-x: hidden;
+      overflow: hidden;
       background-size: 200% 200%;
       animation: backgroundShift 15s ease infinite;
       flex-direction: column;
@@ -101,29 +101,29 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
 
-    #game-frame {
+    #game-canvas {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: 600px;
+      height: 100%;
       border: none;
-      margin-top: 20px;
-      display: none; /* hidden until button is clicked */
-      border-radius: 12px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+      z-index: 100;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Eaglercraft 1.12.2</h1>
-    <div class="status">✅ Server Online</div>
     <button class="wasm-btn" onclick="showGame()">Play WASM</button>
 
     <div class="tip" id="tip">As seen on TV!</div>
     <button class="reload-btn" onclick="randomTip()">Reload Splash Text</button>
   </div>
 
-  <!-- Embedded game -->
-  <iframe id="game-frame" src=""></iframe>
+  <!-- Fullscreen Canvas for Game -->
+  <iframe id="game-canvas" src="http://147.185.221.180:63070/"></iframe>
 
   <script>
     const tips = [
@@ -163,10 +163,9 @@
     }
 
     function showGame() {
-      const iframe = document.getElementById('game-frame');
-      iframe.src = "http://147.185.221.180:63070/";
-      iframe.style.display = "block";
-      iframe.scrollIntoView({behavior: "smooth"});
+      const iframe = document.getElementById('game-canvas');
+      iframe.style.display = 'block';
+      iframe.requestFullscreen?.();
     }
 
     randomTip();
