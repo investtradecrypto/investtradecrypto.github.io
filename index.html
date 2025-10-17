@@ -15,9 +15,10 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      overflow: hidden;
+      overflow-x: hidden;
       background-size: 200% 200%;
       animation: backgroundShift 15s ease infinite;
+      flex-direction: column;
     }
 
     @keyframes backgroundShift {
@@ -34,6 +35,7 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       text-align: center;
       animation: fadeIn 1.2s ease;
+      z-index: 1;
     }
 
     @keyframes fadeIn {
@@ -80,7 +82,7 @@
       background: rgba(255,255,255,0.15);
     }
 
-    .reload-btn, .play-btn, .start-btn, .proxy-btn, .game-btn, .wasm-btn {
+    .reload-btn, .wasm-btn {
       display: inline-block;
       margin: 10px;
       padding: 10px 20px;
@@ -94,16 +96,19 @@
       text-decoration: none;
     }
 
-    .reload-btn:hover, .play-btn:hover, .start-btn:hover, .proxy-btn:hover, .game-btn:hover, .wasm-btn:hover {
+    .reload-btn:hover, .wasm-btn:hover {
       transform: scale(1.05);
       box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
 
-    a.status-link {
-      display: block;
-      margin-top: 10px;
-      color: #00bfff;
-      text-decoration: underline;
+    #game-frame {
+      width: 100%;
+      height: 600px;
+      border: none;
+      margin-top: 20px;
+      display: none; /* hidden until button is clicked */
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.5);
     }
   </style>
 </head>
@@ -111,12 +116,14 @@
   <div class="container">
     <h1>Eaglercraft 1.12.2</h1>
     <div class="status">✅ Server Online</div>
-    <a class="game-btn" href="http://pheinseaglerserver.surge.sh/game.html" target="_blank">Game</a>
-    <a class="wasm-btn" href="http://pheinseaglerserver.surge.sh/wasm.html" target="_blank">WASM</a>
+    <button class="wasm-btn" onclick="showGame()">Play WASM</button>
 
     <div class="tip" id="tip">As seen on TV!</div>
     <button class="reload-btn" onclick="randomTip()">Reload Splash Text</button>
   </div>
+
+  <!-- Embedded game -->
+  <iframe id="game-frame" src=""></iframe>
 
   <script>
     const tips = [
@@ -153,6 +160,13 @@
     function randomTip() {
       const tipEl = document.getElementById('tip');
       tipEl.textContent = tips[Math.floor(Math.random() * tips.length)];
+    }
+
+    function showGame() {
+      const iframe = document.getElementById('game-frame');
+      iframe.src = "http://147.185.221.180:63070/";
+      iframe.style.display = "block";
+      iframe.scrollIntoView({behavior: "smooth"});
     }
 
     randomTip();
