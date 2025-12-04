@@ -1,156 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Eaglercraft 1.12.2 Status Page</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #1f4037, #99f2c8);
-      color: #fff;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      overflow: hidden;
-      background-size: 200% 200%;
-      animation: backgroundShift 15s ease infinite;
-      flex-direction: column;
-    }
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity Web Player | science game</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+  </head>
+  <body>
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+      <div id="unity-warning"> </div>
+      <div id="unity-footer">
+        <div id="unity-logo-title-footer"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title">science game</div>
+      </div>
+    </div>
+    <script>
+      var canvas = document.querySelector("#unity-canvas");
 
-    @keyframes backgroundShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+      // Shows a temporary message banner/ribbon for a few seconds, or
+      // a permanent error message on top of the canvas if type=='error'.
+      // If type=='warning', a yellow highlight color is used.
+      // Modify or remove this function to customize the visually presented
+      // way that non-critical warnings and error messages are presented to the
+      // user.
+      function unityShowBanner(msg, type) {
+        var warningBanner = document.querySelector("#unity-warning");
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+        }
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == 'error') div.style = 'background: red; padding: 10px;';
+        else {
+          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+          setTimeout(function() {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
+        updateBannerVisibility();
+      }
 
-    .container {
-      max-width: 700px;
-      padding: 40px;
-      background: rgba(0, 0, 0, 0.7);
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      text-align: center;
-      animation: fadeIn 1.2s ease;
-      z-index: 1;
-    }
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/science game files.loader.js";
+      var config = {
+        arguments: [],
+        dataUrl: buildUrl + "/science game files.data.br",
+        frameworkUrl: buildUrl + "/science game files.framework.js.br",
+        codeUrl: buildUrl + "/science game files.wasm.br",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "science game",
+        productVersion: "1.0",
+        showBanner: unityShowBanner,
+        // errorHandler: function(err, url, line) {
+        //    alert("error " + err + " occurred at line " + line);
+        //    // Return 'true' if you handled this error and don't want Unity
+        //    // to process it further, 'false' otherwise.
+        //    return true;
+        // },
+      };
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+      // By default, Unity keeps WebGL canvas render target size matched with
+      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+      // Set this to false if you want to decouple this synchronization from
+      // happening inside the engine, and you would instead like to size up
+      // the canvas DOM size and WebGL render target sizes yourself.
+      // config.matchWebGLToCanvasSize = false;
 
-    h1 {
-      font-size: 2.6em;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 5px #000;
-    }
+      // If you would like all file writes inside Unity Application.persistentDataPath
+      // directory to automatically persist so that the contents are remembered when
+      // the user revisits the site the next time, uncomment the following line:
+      // config.autoSyncPersistentDataPath = true;
+      // This autosyncing is currently not the default behavior to avoid regressing
+      // existing user projects that might rely on the earlier manual
+      // JS_FileSystem_Sync() behavior, but in future Unity version, this will be
+      // expected to change.
 
-    .status {
-      font-size: 1.5em;
-      margin: 25px 0;
-      font-weight: bold;
-      animation: pulse 1.5s infinite;
-    }
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        // Mobile device style: fill the whole browser client area with the game canvas:
 
-    @keyframes pulse {
-      0% { opacity: 1; }
-      50% { opacity: 0.6; }
-      100% { opacity: 1; }
-    }
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+        document.querySelector("#unity-container").className = "unity-mobile";
+        canvas.className = "unity-mobile";
 
-    .tip {
-      margin-top: 30px;
-      font-size: 1.3em;
-      color: #ffd700;
-      background: rgba(255,255,255,0.05);
-      padding: 20px 30px;
-      border-radius: 12px;
-      font-style: italic;
-      transition: background 0.3s;
-      min-height: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
+        // To lower canvas resolution on mobile devices to gain some
+        // performance, uncomment the following line:
+        // config.devicePixelRatio = 1;
 
-    .tip:hover {
-      background: rgba(255,255,255,0.15);
-    }
 
-    .reload-btn, .wasm-btn {
-      display: inline-block;
-      margin: 10px;
-      padding: 10px 20px;
-      background: linear-gradient(90deg, #2196F3, #1976D2);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: transform 0.2s, box-shadow 0.2s;
-      text-decoration: none;
-    }
+      } else {
+        // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
+        canvas.style.width = "960px";
+        canvas.style.height = "600px";
+      }
 
-    .reload-btn:hover, .wasm-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Eaglercraft 1.12.2</h1>
-    <div class="status">✅ Server Online</div>
-    <a class="wasm-btn" href="http://147.185.221.17:5469/" target="_blank">Play WASM</a>
+      document.querySelector("#unity-loading-bar").style.display = "block";
 
-    <div class="tip" id="tip">As seen on TV!</div>
-    <button class="reload-btn" onclick="randomTip()">Reload Splash Text</button>
-  </div>
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
+              }).then((unityInstance) => {
+                document.querySelector("#unity-loading-bar").style.display = "none";
+                document.querySelector("#unity-fullscreen-button").onclick = () => {
+                  unityInstance.SetFullscreen(1);
+                };
 
-  <script>
-    const tips = [
-      "As seen on TV!",
-      "Awesome!",
-      "100% pure!",
-      "May contain nuts!",
-      "More polygons!",
-      "Super cool!",
-      "Limited edition!",
-      "Flashing letters!",
-      "Made by Notch!",
-      "It's here!",
-      "Best in class!",
-      "It's finished!",
-      "Kind of dragon free!",
-      "Excitement!",
-      "More than 500 sold!",
-      "One of a kind!",
-      "Heaps of hits on YouTube!",
-      "Indev!",
-      "Spiders everywhere!",
-      "Check it out!",
-      "Holy cow, man!",
-      "It's a game!",
-      "Made in Sweden!",
-      "Uses LWJGL!",
-      "Reticulating splines!",
-      "Minecraft!",
-      "Yaaay!",
-      "If you see this, you are Phein Certified! 😎😎😎"
-    ];
+              }).catch((message) => {
+                alert(message);
+              });
+            };
 
-    function randomTip() {
-      const tipEl = document.getElementById('tip');
-      tipEl.textContent = tips[Math.floor(Math.random() * tips.length)];
-    }
+      document.body.appendChild(script);
 
-    randomTip();
-    setInterval(randomTip, 10000);
-  </script>
-</body>
+    </script>
+  </body>
 </html>
